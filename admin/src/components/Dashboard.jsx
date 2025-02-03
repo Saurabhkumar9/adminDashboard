@@ -30,7 +30,7 @@ function Dashboard() {
             </a>
           </li>
           <li>
-            <a href="/lession" className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700">
+            <a href="/lesson" className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700">
             <IoBookSharp size={20} />
               <span>Lession</span>
             </a>

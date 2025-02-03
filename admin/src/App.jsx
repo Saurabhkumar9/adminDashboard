@@ -5,10 +5,11 @@ import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Courses from "./components/Courses";
 import CoursesAdd from "./components/CoursesAdd";
-import Lession from "./components/Lession";
-import LessionAdd from "./components/LessionAdd";
+// import Lesson from "./components/Lesson";
+import LessonAdd from "./components/LessonAdd";
 import Students from "./components/Students";
 import Feedback from "./components/Feedback";
+import Lesson from "./components/Lesson";
 
 function App() {
   return (
@@ -18,8 +19,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/course" element={<Courses />} />
         <Route path="/courseAdd" element={<CoursesAdd />} />
-        <Route path="/lession" element={<Lession />} />
-        <Route path="/lessionAdd" element={<LessionAdd />} />
+        <Route path="/lesson" element={<Lesson/>} />
+        <Route path="/lessonAdd" element={<LessonAdd />} />
         <Route path="/students" element={<Students />} />
         <Route path="/feedback" element={<Feedback />} />
       </Routes>

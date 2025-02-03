@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { MdEdit } from "react-icons/md";
-import Dashboard from "./Dashbord";
+import Dashboard from "./Dashboard";
 import { IoAdd } from "react-icons/io5";
 import axios from "axios";
 

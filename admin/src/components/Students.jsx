@@ -1,6 +1,6 @@
 import React from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri'; // Import the delete icon
-import Dashboard from './Dashbord';
+import Dashboard from './Dashboard';
 
 function Students() {
   return (

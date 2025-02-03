@@ -1,25 +1,15 @@
-const Course = require("../../models/course/courseModel");
+const Course = require("../../models/courseModel");
 
 const CourseFind = async (req, res) => {
   try {
-    
-    const data = await Course.find();
+    const courses = await Course.find();
+    if (!courses.length) return res.status(404).json({ message: "No courses found" });
 
-    
-    if (!data || data.length === 0) {
-      return res.status(404).json({ message: "No data found" });
-    }
-
-    
-    res.status(200).json(data);
-  } catch (err) {
-    
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error("Error finding courses:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-}
+};
 
 module.exports = CourseFind;
-
-        
-   

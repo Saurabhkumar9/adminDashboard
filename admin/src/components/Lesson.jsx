@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Dashboard from "./Dashbord";
+import Dashboard from "./Dashboard";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { IoAdd } from "react-icons/io5";
 import axios from "axios";
 
-function Lession() {
+function Lesson() {
   const [courseId, setCourseId] = useState("");
   const [lessons, setLessons] = useState([]);
   const [courseData, setCourseData] = useState({});
@@ -23,14 +23,14 @@ function Lession() {
 
     try {
       const courseResponse = await axios.get(
-        `http://localhost:4000/api/admin/course/${courseId}`
+        `http://localhost:4000/api/admin/course/search/${courseId}`
       );
 
       if (courseResponse.data) {
         setCourseData(courseResponse.data);
 
         const lessonResponse = await axios.get(
-          `http://localhost:4000/api/admin/lession/find`
+          `http://localhost:4000/api/admin/lesson/find`
         );
 
         console.log(lessonResponse.data);
@@ -55,14 +55,14 @@ function Lession() {
     }
   };
 
-  const handleDelete = async (lessionID) => {
+  const handleDelete = async (lessonID) => {
     try {
       const res = await axios.delete(
-        `http://localhost:4000/api/admin/lession/delete/${lessionID}`
+        `http://localhost:4000/api/admin/lesson/delete/${lessonID}`
       );
       console.log(res.data);
       // Remove deleted lesson from state
-      setLessons(lessons.filter((lesson) => lesson._id !== lessionID));
+      setLessons(lessons.filter((lesson) => lesson._id !== lessonID));
       alert(res.data.message || "Lesson deleted successfully");
     } catch (error) {
       console.error("Error deleting lesson:", error);
@@ -121,15 +121,15 @@ function Lession() {
                   lessons.map((lesson) => (
                     <tr key={lesson._id} className="bg-base-200">
                       <td>{lesson._id}</td>
-                      <td>{lesson.lession_title}</td>
+                      <td>{lesson.lesson_title}</td>
                       <td>
                         <a
-                          href={lesson.lession_link}
+                          href={lesson.lesson_link}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-400 underline"
                         >
-                          {lesson.lession_link}
+                          {lesson.lesson_link}
                         </a>
                       </td>
                       <td>
@@ -157,7 +157,7 @@ function Lession() {
       {/* Add Lesson Button */}
       <div className="flex justify-end pr-20 pt-10 pb-10 w-full">
         <button className="p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition">
-          <a href="/lessionAdd">
+          <a href="/lessonAdd">
             <IoAdd size={24} />
           </a>
         </button>
@@ -166,4 +166,7 @@ function Lession() {
   );
 }
 
-export default Lession;
+export default Lesson;
+
+
+

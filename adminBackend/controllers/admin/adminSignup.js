@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs");
-const Admin = require("../models/AdminModel");
-
+const Admin = require("../../models/adminModel");
 const AdminSignup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -9,7 +8,7 @@ const AdminSignup = async (req, res) => {
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
       return res.status(400).json({ message: "Email already registered" });
-      // .send used whare json
+      
     }
 
     // Hash password

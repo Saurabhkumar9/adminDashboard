@@ -1,9 +1,9 @@
 import React from "react";
-import Dashboard from "./Dashbord";
+import Dashboard from "./Dashboard";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
-function LessionAdd() {
+function LessonAdd() {
   const {
     register,
     handleSubmit,
@@ -13,16 +13,16 @@ function LessionAdd() {
 
   const onSubmit = async (data) => {
     try {
-      const lessionInfo = {
+      const lessonInfo = {
         course_id: data.courseId,
-        lession_title: data.lessionTitle,
-        lession_description: data.lessonDescription,
-        lession_link: data.lessionLink,
+        lesson_title: data.lessonTitle,
+        lesson_description: data.lessonDescription,
+        lesson_link: data.lessonLink,
       };
 
       const response = await axios.post(
-        "http://localhost:4000/api/admin/lession/add",
-        lessionInfo
+        "http://localhost:4000/api/admin/lesson/add",
+        lessonInfo
       );
 
       // Check if the request was successful
@@ -73,22 +73,22 @@ function LessionAdd() {
 
                 {/* Lesson Title */}
                 <label
-                  htmlFor="lessionTitle"
+                  htmlFor="lessonTitle"
                   className="block text-gray-900 font-medium"
                 >
                   Lesson Title
                 </label>
                 <input
                   type="text"
-                  {...register("lessionTitle", {
+                  {...register("lessonTitle", {
                     required: "Enter lesson title",
                   })}
-                  id="lessionTitle"
+                  id="lessonTitle"
                   placeholder="Lesson Title"
                   className="w-full p-2 border rounded mb-3 bg-white text-black"
                 />
-                {errors.lessionTitle && (
-                  <p className="text-red-700">{errors.lessionTitle.message}</p>
+                {errors.lessonTitle && (
+                  <p className="text-red-700">{errors.lessonTitle.message}</p>
                 )}
 
                 {/* Lesson Description */}
@@ -114,29 +114,29 @@ function LessionAdd() {
 
                 {/* Lesson Link */}
                 <label
-                  htmlFor="lessionLink"
+                  htmlFor="lessonLink"
                   className="block text-gray-900 font-medium"
                 >
                   Lesson Link
                 </label>
                 <input
                   type="text"
-                  {...register("lessionLink", {
+                  {...register("lessonLink", {
                     required: "Enter lesson link",
                   })}
-                  id="lessionLink"
+                  id="lessonLink"
                   placeholder="Lesson Link"
                   className="w-full p-2 border rounded mb-3 bg-white text-black"
                 />
-                {errors.lessionLink && (
-                  <p className="text-red-700">{errors.lessionLink.message}</p>
+                {errors.lessonLink && (
+                  <p className="text-red-700">{errors.lessonLink.message}</p>
                 )}
 
                 {/* Buttons */}
                 <div className="flex justify-end mt-4">
-                  <button className="mr-2 px-4 py-2 bg-red-700 text-white rounded hover:bg-gray-500">
+                  <a href="/lesson" className="mr-2 px-4 py-2 bg-red-700 text-white rounded hover:bg-gray-500">
                     Close
-                  </button>
+                  </a>
                   <button
                     type="submit"
                     className="px-4 py-2 bg-green-600 text-white rounded"
@@ -153,4 +153,9 @@ function LessionAdd() {
   );
 }
 
-export default LessionAdd;
+export default LessonAdd;
+
+
+
+
+

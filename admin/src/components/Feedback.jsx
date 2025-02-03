@@ -1,5 +1,5 @@
 import React from "react";
-import Dashboard from "./Dashbord";
+import Dashboard from "./Dashboard";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 function Feedback() {
