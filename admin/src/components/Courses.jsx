@@ -13,8 +13,7 @@ function Courses() {
     axios
       .get("http://localhost:4000/api/admin/course/find")
       .then((res) => {
-        console.log(res.data);
-        setCourse(res.data); 
+        setCourse(res.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -22,6 +21,19 @@ function Courses() {
         setLoading(false);
       });
   }, []);
+
+  const handleDelete = (courseId) => {
+    axios
+      .delete(`http://localhost:4000/api/admin/course/delete/${courseId}`)
+      .then((res) => {
+        console.log(res.data);
+
+        setCourse(course.filter((item) => item._id !== courseId));
+      })
+      .catch((error) => {
+        console.error("Error deleting course:", error);
+      });
+  };
 
   return (
     <div className="flex flex-col sm:flex-row sm:flex-wrap w-full">
@@ -55,7 +67,10 @@ function Courses() {
                   </tr>
                 ) : course.length > 0 ? (
                   course.map((item) => (
-                    <tr key={item._id} className="bg-base-200 hover:bg-base-300 transition">
+                    <tr
+                      key={item._id}
+                      className="bg-base-200 hover:bg-base-300 transition"
+                    >
                       <td className="px-4 py-2">{item._id || "N/A"}</td>
                       <td className="px-4 py-2">{item.courseName || "N/A"}</td>
                       <td className="px-4 py-2">{item.authorName || "N/A"}</td>
@@ -67,6 +82,7 @@ function Courses() {
                         <RiDeleteBinLine
                           size={20}
                           className="cursor-pointer text-red-500 hover:text-red-700"
+                          onClick={() => handleDelete(item._id)}
                         />
                       </td>
                     </tr>

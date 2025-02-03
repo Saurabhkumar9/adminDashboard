@@ -1,29 +1,56 @@
 import React from "react";
 import Dashboard from "./Dashbord";
-import {useForm} from "react-hook-form"
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 function LessionAdd() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-  const {register, handleSubmit, formState:{errors}}=useForm()
+  const onSubmit = async (data) => {
+    try {
+      const lessionInfo = {
+        course_id: data.courseId,
+        lession_title: data.lessionTitle,
+        lession_description: data.lessonDescription,
+        lession_link: data.lessionLink,
+      };
 
-  const onSubmit=(data)=>{
-    console.log(data)
-  }
+      const response = await axios.post(
+        "http://localhost:4000/api/admin/lession/add",
+        lessionInfo
+      );
 
+      // Check if the request was successful
+      if (response.status === 201) {
+        console.log("Lesson added successfully:", response.data);
+        alert("Lesson added successfully");
+      }
+    } catch (error) {
+      console.error("Error adding lesson:", error);
+      alert("Failed to add lesson");
+    }
+
+    reset();
+  };
 
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:flex-wrap w-full">
-        <div className="card bg-white   grid h-auto flex-grow  p-4 w-[25%]">
+        <div className="card bg-white grid h-auto flex-grow p-4 w-[25%]">
           <Dashboard />
         </div>
 
-        <div className="card bg-white  grid h-auto flex-grow  p-4 w-[74%]">
+        <div className="card bg-white grid h-auto flex-grow p-4 w-[74%]">
           <div className="flex justify-center items-center rounded-box min-h-screen bg-gray-900 ">
             <div className="bg-gray-400 p-6 m-3 items-start rounded-lg shadow-lg w-[70%]">
-            <div className="text-center bg-slate-900 p-4 rounded-sm">
-            <p className="font-bold text-white text-xl"> New Lession Add</p>
-          </div>
+              <div className="text-center bg-slate-900 p-4 rounded-sm">
+                <p className="font-bold text-white text-xl">New Lesson Add</p>
+              </div>
 
               <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Course ID */}
@@ -35,43 +62,34 @@ function LessionAdd() {
                 </label>
                 <input
                   type="text"
-                  {...register("courseId", {required:"enter courseId"})}
+                  {...register("courseId", { required: "Enter course ID" })}
                   id="courseId"
                   placeholder="Course ID"
                   className="w-full p-2 border rounded mb-3 bg-white text-black"
                 />
-                {errors.courseId &&<p className="text-red">{errors.courseId.message}</p> }
+                {errors.courseId && (
+                  <p className="text-red-700">{errors.courseId.message}</p>
+                )}
 
-                {/* Course Name */}
+                {/* Lesson Title */}
                 <label
-                  htmlFor="courseName"
+                  htmlFor="lessionTitle"
                   className="block text-gray-900 font-medium"
                 >
-                  Course Name
+                  Lesson Title
                 </label>
                 <input
                   type="text"
-                  {...register("courseName", {required:"enter course name"})}
-                  id="courseName"
-                  placeholder="Course Name"
+                  {...register("lessionTitle", {
+                    required: "Enter lesson title",
+                  })}
+                  id="lessionTitle"
+                  placeholder="Lesson Title"
                   className="w-full p-2 border rounded mb-3 bg-white text-black"
                 />
-                {errors.courseName &&<p className="text-red">{errors.courseName.message}</p> }
-                {/* Lesson Name */}
-                <label
-                  htmlFor="lessonName"
-                  className="block text-gray-900 font-medium"
-                >
-                  Lesson Name
-                </label>
-                <input
-                  type="text"
-                  {...register("lessionName", {required:"enter LessionName"})}
-                  id="lessonName"
-                  placeholder="Lesson Name"
-                  className="w-full p-2 border rounded mb-3 bg-white text-black"
-                />
-                {errors.lessionName &&<p className="text-red">{errors.lessionName.message}</p> }
+                {errors.lessionTitle && (
+                  <p className="text-red-700">{errors.lessionTitle.message}</p>
+                )}
 
                 {/* Lesson Description */}
                 <label
@@ -82,32 +100,47 @@ function LessionAdd() {
                 </label>
                 <textarea
                   id="lessonDescription"
-                  {...register("lessonDescription", {required:"enter courseName"})}
+                  {...register("lessonDescription", {
+                    required: "Enter lesson description",
+                  })}
                   placeholder="Lesson Description"
                   className="w-full p-2 border rounded mb-3 bg-white text-black"
                 ></textarea>
-                {errors.lessonDescription &&<p className="text-red">{errors.lessonDescription.message}</p> }
+                {errors.lessonDescription && (
+                  <p className="text-red-700">
+                    {errors.lessonDescription.message}
+                  </p>
+                )}
 
-                {/* Lesson Video Upload */}
-                <div className="mb-3">
-                  <label className="block text-gray-900 font-medium">
-                    Upload Lesson Video
-                  </label>
-                  <input
-                    type="file"
-                    {...register("lessionVideo", {required:"enter lession Vedio"})}
-                    accept="video/*"
-                    className="w-full p-2 border rounded bg-white text-black"
-                  />
-                  {errors.lessionVideo &&<p className="text-red">{errors.lessionVideo.message}</p> }
-                </div>
+                {/* Lesson Link */}
+                <label
+                  htmlFor="lessionLink"
+                  className="block text-gray-900 font-medium"
+                >
+                  Lesson Link
+                </label>
+                <input
+                  type="text"
+                  {...register("lessionLink", {
+                    required: "Enter lesson link",
+                  })}
+                  id="lessionLink"
+                  placeholder="Lesson Link"
+                  className="w-full p-2 border rounded mb-3 bg-white text-black"
+                />
+                {errors.lessionLink && (
+                  <p className="text-red-700">{errors.lessionLink.message}</p>
+                )}
 
                 {/* Buttons */}
                 <div className="flex justify-end mt-4">
                   <button className="mr-2 px-4 py-2 bg-red-700 text-white rounded hover:bg-gray-500">
                     Close
                   </button>
-                  <button className="px-4 py-2 bg-green-600 text-white rounded">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-green-600 text-white rounded"
+                  >
                     Submit
                   </button>
                 </div>

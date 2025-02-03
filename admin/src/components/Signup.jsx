@@ -1,15 +1,13 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Signup({ isOpen, setIsOpen }) {
-  // const location = useLocation();
   const navigate = useNavigate();
   const [show, setShow] = useState("");
-  // const from = location.state?.from?.pathname || "/";
- 
+
   const {
     register,
     handleSubmit,
@@ -23,32 +21,32 @@ function Signup({ isOpen, setIsOpen }) {
       email: data.email,
       password: data.password,
     };
-  
+
     try {
-      const res = await axios.post("http://localhost:4000/api/admin/signup", userInfo);
+      const res = await axios.post(
+        "http://localhost:4000/api/admin/signup",
+        userInfo
+      );
       console.log(res.data);
-      
+
       if (res.data.success) {
         setShow(res.data.message);
         localStorage.setItem("Users", JSON.stringify(res.data.user));
-        setIsOpen(false);  // Signup होने के बाद popup बंद करें
+        setIsOpen(false);
       } else {
         setShow(res.data.message);
       }
-  
     } catch (error) {
       if (error.response) {
-        setShow(error.response.data.message);  
+        setShow(error.response.data.message);
       } else {
         setShow("Something went wrong. Please try again!");
       }
       console.log("Signup Error:", error);
     }
-  
-    reset(); 
+
+    reset();
   };
-  
-  
 
   return (
     <Dialog

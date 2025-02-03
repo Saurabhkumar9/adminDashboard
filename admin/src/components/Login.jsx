@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -18,21 +18,23 @@ function Login({ isOpen, setIsOpen }) {
       email: data.email,
       password: data.password,
     };
-  
+
     try {
-      const res = await axios.post("http://localhost:4000/api/admin/login", userInfo);
-      // console.log("Login Success:", res.data);
-      setShow(res.data.message); 
-      
+      const res = await axios.post(
+        "http://localhost:4000/api/admin/login",
+        userInfo
+      );
+
+      setShow(res.data.message);
     } catch (error) {
       if (error.response) {
-        setShow(error.response.data.message); // ✅ Backend Error Message UI में दिखाएं
+        setShow(error.response.data.message);
       } else {
         setShow("Something went wrong. Please try again!");
       }
       console.error("Error during login:", error);
     }
-  
+
     reset();
   };
 

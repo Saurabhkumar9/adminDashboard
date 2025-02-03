@@ -1,0 +1,27 @@
+const mongoose = require("mongoose");
+
+const Schema = mongoose.Schema;
+
+const lessionModel = new Schema({
+  course_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Course", // Referencing the Course model
+    required: true,
+  },
+  lession_title: {
+    type: String,
+    required: true, 
+  },
+  lession_link: {
+    type: String,
+    required: true, 
+  },
+  lession_description: {
+    type: String,
+    required: true, 
+  },
+});
+
+const Lession = mongoose.model("Lession", lessionModel);
+
+module.exports = Lession;
