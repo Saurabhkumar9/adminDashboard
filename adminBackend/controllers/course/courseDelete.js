@@ -1,4 +1,5 @@
 const Course = require("../../models/courseModel");
+const Lesson = require("../../models/lessonModel");
 const mongoose = require("mongoose");
 
 const deleteCourse = async (req, res) => {
@@ -9,12 +10,23 @@ const deleteCourse = async (req, res) => {
       return res.status(400).json({ message: "Invalid course ID" });
     }
 
-    const deletedCourse = await Course.findByIdAndDelete(courseId);
-    if (!deletedCourse) return res.status(404).json({ message: "Course not found" });
+    const course = await Course.findById(courseId);
+    if (!course) return res.status(404).json({ message: "Course not found" });
 
-    res.status(200).json({ message: "Course deleted successfully", deletedCourse });
+    const lessonDeleteResult = await Lesson.deleteMany({ course_id: courseId });
+
+    console.log(
+      `${lessonDeleteResult.deletedCount} lessons deleted for course ${courseId}`
+    );
+
+    await Course.findByIdAndDelete(courseId);
+
+    res.status(200).json({
+      message: "Course and all related lessons deleted successfully",
+      deletedLessons: lessonDeleteResult.deletedCount,
+    });
   } catch (error) {
-    console.error("Error deleting course:", error);
+    console.error("Error deleting course and lessons:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

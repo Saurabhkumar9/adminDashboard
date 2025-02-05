@@ -2,20 +2,18 @@ const Lesson = require("../../models/lessonModel");
 
 const addLesson = async (req, res) => {
   try {
-    // Log incoming request body for debugging
-    console.log(req.body);
+  
+    const { course_id, lesson_title,  lesson_description, lesson_video } = req.body;
 
-    const { course_id, lesson_title, lesson_link, lesson_description } = req.body;
-
-    // Validate required fields
-    if (!course_id || !lesson_title || !lesson_link || !lesson_description) {
+    
+    if (!course_id || !lesson_title ||  !lesson_description  || lesson_video) {
       return res.status(400).send({
         status: 0,
         message: "All fields are required",
       });
     }
 
-    // Check if the lesson with the same title already exists in the database
+    
     const existingLesson = await Lesson.findOne({ lesson_title: lesson_title, course_id: course_id });
 
     if (existingLesson) {
@@ -29,11 +27,10 @@ const addLesson = async (req, res) => {
     const newLesson = new Lesson({
       course_id,
       lesson_title,
-      lesson_link,
       lesson_description,
+      lesson_video
     });
 
-    // Save the lesson to the database
     await newLesson.save();
 
     return res.status(201).send({
@@ -53,3 +50,4 @@ const addLesson = async (req, res) => {
 };
 
 module.exports = addLesson;
+

@@ -2,10 +2,17 @@ const Course = require("../../models/courseModel");
 
 const addCourse = async (req, res) => {
   try {
-    const { courseName, authorName, coursePrice, courseDescription } = req.body;
+    const { courseName, authorName, coursePrice, courseDescription, image } =
+      req.body;
 
     // Check if all fields are provided
-    if (!courseName || !authorName || !coursePrice || !courseDescription) {
+    if (
+      !courseName ||
+      !authorName ||
+      !coursePrice ||
+      !courseDescription ||
+      image
+    ) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -19,21 +26,26 @@ const addCourse = async (req, res) => {
       });
     }
 
+    const imageUrl = `/uploads/${req.file.filename}`;
     // Create a new course if it doesn't already exist
     const newCourse = new Course({
       courseName,
       authorName,
       coursePrice,
       courseDescription,
+      image: imageUrl,
     });
 
-    // Save the course to the database
     await newCourse.save();
 
-    res.status(201).json({ message: "Course added successfully", course: newCourse });
+    res
+      .status(201)
+      .json({ message: "Course added successfully", course: newCourse });
   } catch (error) {
     console.error("Error adding course:", error);
-    res.status(500).json({ message: "Internal Server Error", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
   }
 };
 

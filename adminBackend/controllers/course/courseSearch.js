@@ -3,14 +3,12 @@ const Course = require("../../models/courseModel");
 
 const searchCourseById = async (req, res) => {
   try {
-    const { id } = req.params; // URL से कोर्स ID प्राप्त करना
+    const { id } = req.params;
 
-    // ObjectId का वैध (valid) होना चेक करें
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid course ID format" });
     }
 
-    // MongoDB से कोर्स ID द्वारा सर्च करें
     const course = await Course.findById(id);
 
     if (!course) {

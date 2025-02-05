@@ -13,16 +13,21 @@ function LessonAdd() {
 
   const onSubmit = async (data) => {
     try {
-      const lessonInfo = {
-        course_id: data.courseId,
-        lesson_title: data.lessonTitle,
-        lesson_description: data.lessonDescription,
-        lesson_link: data.lessonLink,
-      };
+      // Create a FormData object to handle file upload
+      const formData = new FormData();
+      formData.append("course_id", data.courseId);
+      formData.append("lesson_title", data.lessonTitle);  
+      formData.append("lesson_description", data.lessonDescription);
+      formData.append("lesson_video", data.lesson_video[0]); // Handling file upload
 
       const response = await axios.post(
         "http://localhost:4000/api/admin/lesson/add",
-        lessonInfo
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", 
+          },
+        }
       );
 
       // Check if the request was successful
@@ -71,26 +76,6 @@ function LessonAdd() {
                   <p className="text-red-700">{errors.courseId.message}</p>
                 )}
 
-                {/* Lesson Title */}
-                <label
-                  htmlFor="lessonTitle"
-                  className="block text-gray-900 font-medium"
-                >
-                  Lesson Title
-                </label>
-                <input
-                  type="text"
-                  {...register("lessonTitle", {
-                    required: "Enter lesson title",
-                  })}
-                  id="lessonTitle"
-                  placeholder="Lesson Title"
-                  className="w-full p-2 border rounded mb-3 bg-white text-black"
-                />
-                {errors.lessonTitle && (
-                  <p className="text-red-700">{errors.lessonTitle.message}</p>
-                )}
-
                 {/* Lesson Description */}
                 <label
                   htmlFor="lessonDescription"
@@ -112,24 +97,41 @@ function LessonAdd() {
                   </p>
                 )}
 
-                {/* Lesson Link */}
+                {/* Lesson Title */}
                 <label
-                  htmlFor="lessonLink"
+                  htmlFor="lessonTitle"
                   className="block text-gray-900 font-medium"
                 >
-                  Lesson Link
+                  Lesson Title
                 </label>
                 <input
                   type="text"
-                  {...register("lessonLink", {
-                    required: "Enter lesson link",
-                  })}
-                  id="lessonLink"
-                  placeholder="Lesson Link"
+                  {...register("lessonTitle", { required: "Enter lesson title" })}
+                  id="lessonTitle"
+                  placeholder="Lesson Title"
                   className="w-full p-2 border rounded mb-3 bg-white text-black"
                 />
-                {errors.lessonLink && (
-                  <p className="text-red-700">{errors.lessonLink.message}</p>
+                {errors.lessonTitle && (
+                  <p className="text-red-700">{errors.lessonTitle.message}</p>
+                )}
+
+                {/* Lesson Video */}
+                <label
+                  htmlFor="lesson_video"
+                  className="block text-gray-900 font-medium"
+                >
+                  Lesson Video
+                </label>
+                <input
+                  type="file"
+                  {...register("lesson_video", {
+                    required: "Please select a video file",
+                  })}
+                  id="lesson_video"
+                  className="w-full p-2 border rounded mb-3 bg-white text-black"
+                />
+                {errors.lesson_video && (
+                  <p className="text-red-700">{errors.lesson_video.message}</p>
                 )}
 
                 {/* Buttons */}
@@ -154,8 +156,3 @@ function LessonAdd() {
 }
 
 export default LessonAdd;
-
-
-
-
-

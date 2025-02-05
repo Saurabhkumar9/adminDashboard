@@ -5,11 +5,11 @@ import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Courses from "./components/Courses";
 import CoursesAdd from "./components/CoursesAdd";
-// import Lesson from "./components/Lesson";
+import Lesson from "./components/Lesson";
 import LessonAdd from "./components/LessonAdd";
 import Students from "./components/Students";
 import Feedback from "./components/Feedback";
-import Lesson from "./components/Lesson";
+
 
 function App() {
   return (
