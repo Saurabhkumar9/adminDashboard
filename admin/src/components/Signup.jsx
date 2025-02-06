@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Dialog } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Signup({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
-  const [show, setShow] = useState("");
-
   const {
     register,
     handleSubmit,
@@ -28,19 +27,19 @@ function Signup({ isOpen, setIsOpen }) {
         userInfo
       );
       console.log(res.data);
+      localStorage.setItem("Users", JSON.stringify(res.data.user));
 
-      if (res.data.success) {
-        setShow(res.data.message);
-        localStorage.setItem("Users", JSON.stringify(res.data.user));
+      setTimeout(() => {
+        navigate("/");
         setIsOpen(false);
-      } else {
-        setShow(res.data.message);
-      }
+        setShow();
+      }, 2000);
+      toast.success(res.data.message)
     } catch (error) {
       if (error.response) {
-        setShow(error.response.data.message);
+        toast.error(error.response.data.message)
       } else {
-        setShow("Something went wrong. Please try again!");
+        toast.error("server error ")
       }
       console.log("Signup Error:", error);
     }
@@ -119,7 +118,7 @@ function Signup({ isOpen, setIsOpen }) {
 
           {/* 🔹 Buttons */}
           <div className="flex justify-end">
-            <p className="text-red-500">{show} </p>
+            
             <button
               onClick={() => setIsOpen(false)}
               className="m-4 rounded-md bg-red-900 px-2 py-1 text-xs font-medium text-white ring-1 ring-pink-700/10 ring-inset"

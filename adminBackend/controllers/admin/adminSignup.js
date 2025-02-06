@@ -7,7 +7,7 @@ const AdminSignup = async (req, res) => {
     // Check if email already exists
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
-      return res.status(400).json({ message: "Email already registered" });
+      return res.status(400).json({ message: "Email already registered please login" });
       
     }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-
+import { ToastContainer} from 'react-toastify';
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Courses from "./components/Courses";
@@ -10,7 +10,6 @@ import LessonAdd from "./components/LessonAdd";
 import Students from "./components/Students";
 import Feedback from "./components/Feedback";
 
-
 function App() {
   return (
     <>
@@ -19,11 +18,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/course" element={<Courses />} />
         <Route path="/courseAdd" element={<CoursesAdd />} />
-        <Route path="/lesson" element={<Lesson/>} />
+        <Route path="/lesson" element={<Lesson />} />
         <Route path="/lessonAdd" element={<LessonAdd />} />
         <Route path="/students" element={<Students />} />
         <Route path="/feedback" element={<Feedback />} />
+        
       </Routes>
+      <ToastContainer />
     </>
   );
 }

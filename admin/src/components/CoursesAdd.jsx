@@ -2,6 +2,7 @@ import React from "react";
 import Dashboard from "./Dashboard";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function CoursesAdd() {
   const {
@@ -32,11 +33,11 @@ function CoursesAdd() {
         }
       );
 
-      alert(response.data.message);
+      toast.success(response.data.message);
       reset();
     } catch (error) {
       console.error("Error adding course:", error);
-      alert("Failed to add course. Please try again.");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -132,12 +133,12 @@ function CoursesAdd() {
 
               {/* Buttons */}
               <div className="flex justify-end mt-4">
-                <button
+                <a href="/course"
                   type="button"
                   className="mr-2 px-4 py-2 bg-red-700 text-white rounded"
                 >
                   Close
-                </button>
+                </a>
                 <button
                   type="submit"
                   className="px-4 py-2 bg-green-600 text-white rounded"

@@ -3,6 +3,7 @@ import Dashboard from "./Dashboard";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { IoAdd } from "react-icons/io5";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Lesson() {
   const [courseId, setCourseId] = useState("");
@@ -17,7 +18,7 @@ function Lesson() {
   // Search function
   const handleSearch = async () => {
     if (!courseId) {
-      alert("Please enter a course ID");
+      toast.error("Please enter a course ID");
       return;
     }
 
@@ -63,43 +64,41 @@ function Lesson() {
       console.log(res.data);
       // Remove deleted lesson from state
       setLessons(lessons.filter((lesson) => lesson._id !== lessonID));
-      alert(res.data.message || "Lesson deleted successfully");
+      toast.success(res.data.message);
     } catch (error) {
       console.error("Error deleting lesson:", error);
-      alert(error.response?.data.message || "Failed to delete lesson");
+      toast.error(error.response?.data.message || "Failed to delete lesson");
     }
   };
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row sm:flex-wrap w-full">
+      <div className="flex flex-col bg-slate-300 sm:flex-row sm:flex-wrap w-full">
         {/* Sidebar */}
-        <div className="card bg-gray-900 grid h-auto flex-grow p-4 w-[25%]">
+        <div className="card  grid h-auto flex-grow p-4 w-[25%]">
           <Dashboard />
         </div>
 
         {/* Main content */}
-        <div className="card bg-gray-900 grid h-auto flex-grow p-4 w-[74%]">
-          {/* Search Box */}
-          <div className="m-4">
-            <span className="m-3">Enter Course Id:</span>
-            <input
-              className="m-4 bg-black text-white p-5 rounded-sm outline-none h-6"
-              placeholder="Course ID"
-              type="text"
-              value={courseId}
-              onChange={handleCourseIdChange}
-            />
-            <button
-              className="bg-red-700 w-20 h-10 rounded-sm"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-          </div>
-
+        <div className="card  grid h-auto flex-grow p-4 w-[70%]">
           {/* Course Name Display */}
           <div className="overflow-x-auto rounded-box bg-gray-900">
+            <div className="m-4 bg-gray-900 rounded-box ">
+              <span className="m-3">Enter Course Id:</span>
+              <input
+                className="m-4 bg-black text-white p-5 rounded-sm outline-none h-6"
+                placeholder="Course ID"
+                type="text"
+                value={courseId}
+                onChange={handleCourseIdChange}
+              />
+              <button
+                className="bg-blue-600 hover:bg-red-700  w-20 h-10 rounded-sm"
+                onClick={handleSearch}
+              >
+                Search
+              </button>
+            </div>
             <div className="text-center bg-slate-900 p-4 rounded-sm">
               <p className="font-bold text-white text-xl">
                 {courseData.courseName || "Course Name"}
@@ -109,27 +108,29 @@ function Lesson() {
             {/* Lessons Table */}
             <table className="table">
               <thead>
-                <tr>
-                  <th>Lesson ID</th>
-                  <th>Lesson Name</th>
-                  <th>Lesson Link</th>
-                  <th>Action</th>
+                <tr className="bg-slate-400 m-2 p-2">
+                  <th className="text-black text-xl">Lesson ID</th>
+                  <th className="text-black text-xl">Lesson Name</th>
+                  <th className="text-black text-xl">Lesson video</th>
+                  <th className="text-black text-xl">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {lessons.length > 0 ? (
                   lessons.map((lesson) => (
                     <tr key={lesson._id} className="bg-base-200">
-                      <td>{lesson._id}</td>
-                      <td>{lesson.lesson_title}</td>
+                      <td className="text-white text-xl">{lesson._id}</td>
+                      <td className="text-white text-xl">
+                        {lesson.lesson_title}
+                      </td>
                       <td>
                         <a
-                          href={lesson.lesson_link}
+                          href={lesson.lesson_video}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-400 underline"
                         >
-                          {lesson.lesson_link}
+                          {lesson.lesson_video}
                         </a>
                       </td>
                       <td>
@@ -156,7 +157,7 @@ function Lesson() {
 
       {/* Add Lesson Button */}
       <div className="flex justify-end pr-20 pt-10 pb-10 w-full">
-        <button className="p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition">
+        <button className="p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-red-700 transition">
           <a href="/lessonAdd">
             <IoAdd size={24} />
           </a>
@@ -167,5 +168,3 @@ function Lesson() {
 }
 
 export default Lesson;
-
-

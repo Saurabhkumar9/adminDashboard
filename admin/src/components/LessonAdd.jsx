@@ -2,6 +2,7 @@ import React from "react";
 import Dashboard from "./Dashboard";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function LessonAdd() {
   const {
@@ -33,11 +34,11 @@ function LessonAdd() {
       // Check if the request was successful
       if (response.status === 201) {
         console.log("Lesson added successfully:", response.data);
-        alert("Lesson added successfully");
+        toast.success(response.data.message)
       }
     } catch (error) {
       console.error("Error adding lesson:", error);
-      alert("Failed to add lesson");
+      toast.error("Failed to add lesson");
     }
 
     reset();

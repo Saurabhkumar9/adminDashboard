@@ -66,7 +66,7 @@ function Dashboard() {
             </a>
           </li>
           <li className="mt-4">
-            <a className="flex items-center gap-3 p-2 rounded-md bg-red-600 hover:bg-red-700">
+            <a  className="flex items-center gap-3 p-2 rounded-md bg-red-600 hover:bg-red-700">
               <IoLogOut size={20} />
               <span>Logout</span>
             </a>

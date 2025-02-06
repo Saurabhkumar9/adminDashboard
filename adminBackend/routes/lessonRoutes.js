@@ -10,6 +10,8 @@ const upload = require("../middleware/videoMulter");
 const router = express.Router();
 
 // Route for adding a lesson
+
+
 router.post("/lesson/add", upload.single("lesson_video"), addLesson);
 
 
@@ -27,3 +29,6 @@ router.delete("/lesson/delete/:lessonId", deleteLesson);
 
 
 module.exports = router;
+
+
+

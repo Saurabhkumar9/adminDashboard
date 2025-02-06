@@ -4,6 +4,7 @@ import { MdEdit } from "react-icons/md";
 import Dashboard from "./Dashboard";
 import { IoAdd } from "react-icons/io5";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Courses() {
   const [course, setCourse] = useState([]);
@@ -36,6 +37,7 @@ function Courses() {
         console.log(res.data);
         setCourse(course.filter((item) => item._id !== courseId));
       })
+      toast.success(res.data.message)
         
 
       .catch((error) => {
@@ -57,7 +59,8 @@ function Courses() {
     axios
       .put(`http://localhost:4000/api/admin/course/update/${selectedCourse._id}`, updatedData)
       .then((res) => {
-        console.log("Course updated:", res.data);
+        toast.success("Course updated:", res.data);
+
         setCourse((prevCourses) =>
           prevCourses.map((c) => (c._id === selectedCourse._id ? res.data : c))
         );
@@ -69,12 +72,12 @@ function Courses() {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row sm:flex-wrap w-full">
+    <div className="flex flex-col bg-slate-300 sm:flex-row sm:flex-wrap w-full">
       <div className="card grid h-auto flex-grow p-4 w-[25%]">
         <Dashboard />
       </div>
 
-      <div className="card grid h-auto flex-grow p-4 w-[74%]">
+      <div className="card grid h-auto flex-grow p-4 w-[72%]">
         <div className="overflow-x-auto rounded-box bg-gray-900">
           <div className="text-center bg-slate-900 p-4">
             <p className="font-bold text-white text-xl">Courses</p>
@@ -130,7 +133,7 @@ function Courses() {
       </div>
 
       <div className="flex justify-end pr-20 pt-10 pb-10 w-full">
-        <button className="p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition">
+        <button className="p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-red-700 transition">
           <a href="/courseAdd">
             <IoAdd size={24} />
           </a>

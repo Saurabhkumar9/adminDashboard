@@ -2,20 +2,28 @@ const Lesson = require("../../models/lessonModel");
 
 const addLesson = async (req, res) => {
   try {
-  
-    const { course_id, lesson_title,  lesson_description, lesson_video } = req.body;
+    const { course_id, lesson_title, lesson_description } = req.body;
+
+    // Check if file is uploaded
+    if (!req.file) {
+      return res.status(400).send({
+        status: 0,
+        message: "Lesson video is required",
+      });
+    }
+
+    const lesson_video = req.file.path; 
 
     
-    if (!course_id || !lesson_title ||  !lesson_description  || lesson_video) {
+    if (!course_id || !lesson_title || !lesson_description || !lesson_video) {
       return res.status(400).send({
         status: 0,
         message: "All fields are required",
       });
     }
 
-    
-    const existingLesson = await Lesson.findOne({ lesson_title: lesson_title, course_id: course_id });
-
+    // Check if lesson already exists in the same course
+    const existingLesson = await Lesson.findOne({ lesson_title, course_id });
     if (existingLesson) {
       return res.status(400).send({
         status: 0,
@@ -23,12 +31,12 @@ const addLesson = async (req, res) => {
       });
     }
 
-    // Create a new lesson
+    // Create new lesson
     const newLesson = new Lesson({
       course_id,
       lesson_title,
       lesson_description,
-      lesson_video
+      lesson_video,
     });
 
     await newLesson.save();
@@ -50,4 +58,3 @@ const addLesson = async (req, res) => {
 };
 
 module.exports = addLesson;
-

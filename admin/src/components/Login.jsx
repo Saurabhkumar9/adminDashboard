@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Dialog } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 function Login({ isOpen, setIsOpen }) {
-  const [show, setShow] = useState(""); // Initialize state for show
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -25,12 +27,20 @@ function Login({ isOpen, setIsOpen }) {
         userInfo
       );
 
-      setShow(res.data.message);
+      // local stroge
+      localStorage.setItem("User", res.data.user);
+
+      toast.success(res.data.message)
+
+      setTimeout(() => {
+        navigate("/");
+        setIsOpen(false);
+      }, 2000);
     } catch (error) {
       if (error.response) {
-        setShow(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setShow("Something went wrong. Please try again!");
+        toast.error("Something went wrong. Please try again!");
       }
       console.error("Error during login:", error);
     }
@@ -93,7 +103,7 @@ function Login({ isOpen, setIsOpen }) {
           </div>
 
           <div className="flex justify-end">
-            <p className="text-red-500">{show}</p>
+           
             <button
               onClick={() => setIsOpen(false)}
               className="m-4 rounded-md bg-red-900 px-2 py-1 text-xs font-medium text-white ring-1 ring-pink-700/10 ring-inset"
@@ -114,3 +124,6 @@ function Login({ isOpen, setIsOpen }) {
 }
 
 export default Login;
+
+
+
