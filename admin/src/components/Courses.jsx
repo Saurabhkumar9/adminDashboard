@@ -16,10 +16,14 @@ function Courses() {
     authorName: "",
     coursePrice: "",
   });
-
+  const token = localStorage.getItem("token");
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/admin/course/find")
+      .get("http://localhost:4000/api/admin/course/find", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         setCourse(res.data);
         setLoading(false);
@@ -32,13 +36,17 @@ function Courses() {
 
   const handleDelete = (courseId) => {
     axios
-      .delete(`http://localhost:4000/api/admin/course/delete/${courseId}`)
+      .delete(`http://localhost:4000/api/admin/course/delete/${courseId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         console.log(res.data);
         setCourse(course.filter((item) => item._id !== courseId));
-      })
-      toast.success(res.data.message)
-        
+      });
+    toast
+      .success(res.data.message)
 
       .catch((error) => {
         console.error("Error deleting course:", error);
@@ -57,7 +65,15 @@ function Courses() {
 
   const handleUpdate = () => {
     axios
-      .put(`http://localhost:4000/api/admin/course/update/${selectedCourse._id}`, updatedData)
+      .put(
+        `http://localhost:4000/api/admin/course/update/${selectedCourse._id}`,
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         toast.success("Course updated:", res.data);
 
@@ -101,7 +117,10 @@ function Courses() {
                   </tr>
                 ) : course.length > 0 ? (
                   course.map((item) => (
-                    <tr key={item._id} className="bg-base-200 hover:bg-base-300 transition">
+                    <tr
+                      key={item._id}
+                      className="bg-base-200 hover:bg-base-300 transition"
+                    >
                       <td className="px-4 py-2">{item._id || "N/A"}</td>
                       <td className="px-4 py-2">{item.courseName || "N/A"}</td>
                       <td className="px-4 py-2">{item.authorName || "N/A"}</td>
@@ -135,7 +154,7 @@ function Courses() {
       <div className="flex justify-end pr-20 pt-10 pb-10 w-full">
         <button className="p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-red-700 transition">
           <a href="/courseAdd">
-            <IoAdd size={24} />
+            <IoAdd size={50} />
           </a>
         </button>
       </div>
@@ -149,7 +168,9 @@ function Courses() {
             <input
               type="text"
               value={updatedData.courseName}
-              onChange={(e) => setUpdatedData({ ...updatedData, courseName: e.target.value })}
+              onChange={(e) =>
+                setUpdatedData({ ...updatedData, courseName: e.target.value })
+              }
               className="border p-2 w-full mb-4"
             />
 
@@ -157,7 +178,9 @@ function Courses() {
             <input
               type="text"
               value={updatedData.authorName}
-              onChange={(e) => setUpdatedData({ ...updatedData, authorName: e.target.value })}
+              onChange={(e) =>
+                setUpdatedData({ ...updatedData, authorName: e.target.value })
+              }
               className="border p-2 w-full mb-4"
             />
 
@@ -165,7 +188,9 @@ function Courses() {
             <input
               type="text"
               value={updatedData.coursePrice}
-              onChange={(e) => setUpdatedData({ ...updatedData, coursePrice: e.target.value })}
+              onChange={(e) =>
+                setUpdatedData({ ...updatedData, coursePrice: e.target.value })
+              }
               className="border p-2 w-full mb-4"
             />
 

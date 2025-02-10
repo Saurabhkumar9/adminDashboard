@@ -41,8 +41,9 @@ function Navbar() {
         </div>
       </div>
 
-      <Login isOpen={isOpen} setIsOpen={setIsOpen} />//props passsing
-      <Signup isOpen={signisopen} setIsOpen={setSigninopen} />// prop passing
+      <Login isOpen={isOpen} setIsOpen={setIsOpen} />
+      
+      <Signup signisopen={signisopen} setSigninopen={setSigninopen}  />
     </>
   );
 }

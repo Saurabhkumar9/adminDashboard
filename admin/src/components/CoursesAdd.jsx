@@ -22,13 +22,14 @@ function CoursesAdd() {
       formData.append("image", data.image[0]);
 
       console.log(formData);
-
+      const token = localStorage.getItem("token");
       const response = await axios.post(
         "http://localhost:4000/api/admin/course/add",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+           "Authorization": `Bearer ${token}`,
           },
         }
       );

@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function Signup({ isOpen, setIsOpen }) {
+function Signup({ signisopen, setSigninopen }) {
   const navigate = useNavigate();
   const {
     register,
@@ -30,8 +30,8 @@ function Signup({ isOpen, setIsOpen }) {
       localStorage.setItem("Users", JSON.stringify(res.data.user));
 
       setTimeout(() => {
+        setSigninopen(false);
         navigate("/");
-        setIsOpen(false);
         setShow();
       }, 2000);
       toast.success(res.data.message)
@@ -49,13 +49,13 @@ function Signup({ isOpen, setIsOpen }) {
 
   return (
     <Dialog
-      open={isOpen}
-      onClose={() => setIsOpen(false)}
+      open={signisopen}
+      onClose={() => setSigninopen(false)}
       className="fixed inset-0 z-50 flex items-center justify-center"
     >
       <div
         className="fixed inset-0 bg-black/60"
-        onClick={() => setIsOpen(false)}
+        onClick={() => setSigninopen(false)}
       ></div>
 
       <div className="bg-white p-6 rounded-lg shadow-lg z-50 w-full max-w-sm mx-auto">

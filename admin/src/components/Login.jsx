@@ -28,7 +28,8 @@ function Login({ isOpen, setIsOpen }) {
       );
 
       // local stroge
-      localStorage.setItem("User", res.data.user);
+      localStorage.setItem("token", res.data.token);
+     
 
       toast.success(res.data.message)
 

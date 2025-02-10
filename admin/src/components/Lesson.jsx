@@ -16,6 +16,7 @@ function Lesson() {
   };
 
   // Search function
+  const token = localStorage.getItem("token");
   const handleSearch = async () => {
     if (!courseId) {
       toast.error("Please enter a course ID");
@@ -24,14 +25,24 @@ function Lesson() {
 
     try {
       const courseResponse = await axios.get(
-        `http://localhost:4000/api/admin/course/search/${courseId}`
+        `http://localhost:4000/api/admin/course/search/${courseId}`,
+        {
+          headers: {
+           "Authorization": `Bearer ${token}`,
+          },
+        }
       );
 
       if (courseResponse.data) {
         setCourseData(courseResponse.data);
 
         const lessonResponse = await axios.get(
-          `http://localhost:4000/api/admin/lesson/find`
+          `http://localhost:4000/api/admin/lesson/find`,
+          {
+            headers: {
+             "Authorization": `Bearer ${token}`,
+            },
+          }
         );
 
         console.log(lessonResponse.data);
@@ -59,7 +70,12 @@ function Lesson() {
   const handleDelete = async (lessonID) => {
     try {
       const res = await axios.delete(
-        `http://localhost:4000/api/admin/lesson/delete/${lessonID}`
+        `http://localhost:4000/api/admin/lesson/delete/${lessonID}`,
+        {
+          headers: {
+           "Authorization": `Bearer ${token}`,
+          },
+        }
       );
       console.log(res.data);
       // Remove deleted lesson from state
@@ -159,7 +175,7 @@ function Lesson() {
       <div className="flex justify-end pr-20 pt-10 pb-10 w-full">
         <button className="p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-red-700 transition">
           <a href="/lessonAdd">
-            <IoAdd size={24} />
+            <IoAdd size={50} />
           </a>
         </button>
       </div>

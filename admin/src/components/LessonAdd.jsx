@@ -12,6 +12,7 @@ function LessonAdd() {
     reset,
   } = useForm();
 
+  const token = localStorage.getItem("token");
   const onSubmit = async (data) => {
     try {
       // Create a FormData object to handle file upload
@@ -27,6 +28,7 @@ function LessonAdd() {
         {
           headers: {
             "Content-Type": "multipart/form-data", 
+            "Authorization": `Bearer ${token}`,
           },
         }
       );
